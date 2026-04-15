@@ -1,5 +1,15 @@
 extends CharacterBody2D
 
+# -----------------------------------------------------------------------------
+# Player Controller (Step 3 MVP)
+# -----------------------------------------------------------------------------
+# 目标：实现 Godot 4.x 下最小可运行的 WASD 八方向移动。
+# 设计取舍：
+# 1) 先保证“输入正确 + 移动稳定”，暂不引入动画/状态机；
+# 2) 使用 CharacterBody2D 标准移动链路（velocity + move_and_slide）；
+# 3) 输入映射缺失时自动补齐，降低新手首次运行门槛。
+# -----------------------------------------------------------------------------
+
 # 采用导出参数，让“移动速度”在 Inspector 可调，而不是写死在代码里。
 # 这样后续调手感时不用改脚本，降低学习和迭代成本。
 @export_range(50.0, 600.0, 10.0) var move_speed: float = 220.0
@@ -9,10 +19,15 @@ static var _input_initialized: bool = false
 
 
 func _ready() -> void:
+	# 在 _ready 做一次输入映射兜底：
+	# - 保证场景一运行就能移动；
+	# - 避免把“无法移动”的问题误判成物理或脚本 bug。
 	_ensure_movement_actions()
 
 
 func _physics_process(_delta: float) -> void:
+	# _physics_process 以固定物理帧率执行（默认 60Hz），
+	# 适合处理角色移动、碰撞这类“与物理同步”的逻辑。
 	# Input.get_vector 会把四个方向合成为单位向量，并自动处理对角线归一化。
 	# 这能保证八方向移动时速度一致，不会出现“斜着走更快”的常见问题。
 	var input_direction: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -42,6 +57,7 @@ func _physics_process(_delta: float) -> void:
 
 
 func _ensure_movement_actions() -> void:
+	# static 标记保证整个运行期只初始化一次，避免重复 add_action。
 	if _input_initialized:
 		return
 
@@ -56,6 +72,7 @@ func _ensure_movement_actions() -> void:
 
 
 func _add_action_if_missing(action_name: StringName, keycode: Key) -> void:
+	# 只在 action 不存在时创建，避免覆盖你在编辑器里手动绑定的按键方案。
 	if InputMap.has_action(action_name):
 		return
 

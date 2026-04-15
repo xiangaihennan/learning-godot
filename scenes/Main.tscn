@@ -1,14 +1,23 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_root.gd" id="1_l6v4f"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_jm1pq"]
 
 [node name="Main" type="Node2D" unique_id=187698249]
 script = ExtResource("1_l6v4f")
+editor_description = "主场景根节点：负责承载 World/Entities/VFX/UIRoot 四层结构。"
 
 [node name="World" type="Node2D" parent="." unique_id=1809962616]
+editor_description = "世界层：用于放地图、地形、障碍物等静态或半静态内容。"
 
 [node name="Entities" type="Node2D" parent="." unique_id=452330591]
+editor_description = "实体层：用于放玩家、敌人、子弹、掉落物等可交互对象。"
+
+[node name="Player" parent="Entities" instance=ExtResource("2_jm1pq")]
+editor_description = "玩家实例：来自 Player.tscn，当前阶段用于验证 WASD 移动。"
 
 [node name="VFX" type="Node2D" parent="." unique_id=1315232738]
+editor_description = "特效层：用于放命中特效、爆炸、受击闪烁等视觉反馈。"
 
 [node name="UIRoot" type="CanvasLayer" parent="." unique_id=1227203683]
+editor_description = "UI 根层：放 HUD 和菜单。CanvasLayer 使其不随世界相机缩放。"
