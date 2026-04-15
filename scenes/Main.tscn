@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/main_root.gd" id="1_l6v4f"]
+
+[node name="Main" type="Node2D" unique_id=187698249]
+script = ExtResource("1_l6v4f")
+
+[node name="World" type="Node2D" parent="." unique_id=1809962616]
+
+[node name="Entities" type="Node2D" parent="." unique_id=452330591]
+
+[node name="VFX" type="Node2D" parent="." unique_id=1315232738]
+
+[node name="UIRoot" type="CanvasLayer" parent="." unique_id=1227203683]
