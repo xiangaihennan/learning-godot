@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://icon.svg" id="1_3gvst"]
+
+[node name="root" type="Node2D" unique_id=156740711]
+editor_description = "敌人场景根节点：第5步先作为占位敌人，后续第6步会挂 enemy.gd 实现追踪逻辑。"
+
+[node name="BodyVisual" type="Polygon2D" parent="." unique_id=1053637084]
+editor_description = "早期占位可视节点（当前未使用有效多边形），保留用于后续替换为自定义形状时参考。"
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1897444807]
+editor_description = "兼容测试节点：用于验证 load_sprite 工具链路；当前缩放极小，基本不可见。"
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("1_3gvst")
+
+[node name="EnemyVisual" type="Sprite2D" parent="." unique_id=1116560482]
+editor_description = "当前实际可视节点：敌人会显示 icon.svg，便于观察刷怪位置。"
+texture = ExtResource("1_3gvst")
